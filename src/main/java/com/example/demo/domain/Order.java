@@ -12,10 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.example.demo.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
 
-@Entity
+@Entity	
 @Table(name="tb_order")
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -31,16 +31,19 @@ public class Order implements Serializable {
 	@JoinColumn(name = "cliente_id")
 	private Users cliente;
 	
+	private Integer orderStatus;
+	
 	
 	public Order() {
 		
 	}
 
 
-	public Order(Integer id, Instant moment, Users cliente) {
+	public Order(Integer id, Instant moment, OrderStatus orderStatus ,Users cliente) {
 		super();
 		this.id = id;
 		this.moment = moment;
+		setOrderStatus(orderStatus);
 		this.cliente = cliente;
 	}
 
@@ -73,6 +76,18 @@ public class Order implements Serializable {
 	public void setCliente(Users cliente) {
 		this.cliente = cliente;
 	}
+	
+	
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if(orderStatus != null) {
+			this.orderStatus = orderStatus.getCod();
+		}
+	}
 
 
 	@Override
@@ -92,6 +107,9 @@ public class Order implements Serializable {
 		Order other = (Order) obj;
 		return Objects.equals(id, other.id);
 	}
+
+
+
 	
 	
 	
