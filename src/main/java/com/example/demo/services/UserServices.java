@@ -25,4 +25,8 @@ public class UserServices {
 		return obj.orElse(null);
 		
 	}
+	
+	public Users insert(Users obj) {
+		return repo.save(obj);
+	}
 }
