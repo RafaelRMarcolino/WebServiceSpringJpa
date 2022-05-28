@@ -2,7 +2,9 @@ package com.example.demo.domain;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.example.demo.enums.OrderStatus;
@@ -22,16 +25,23 @@ public class Order implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	
 	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd 'T' HH:mm:ss 'Z'", timezone = "GMT")
 	private Instant moment;
+	
+
+	private Integer orderStatus;
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Users cliente;
 	
-	private Integer orderStatus;
+	
+
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<>();
 	
 	
 	public Order() {
@@ -39,7 +49,7 @@ public class Order implements Serializable {
 	}
 
 
-	public Order(Integer id, Instant moment, OrderStatus orderStatus ,Users cliente) {
+	public Order(Long id, Instant moment, OrderStatus orderStatus ,Users cliente) {
 		super();
 		this.id = id;
 		this.moment = moment;
@@ -48,12 +58,12 @@ public class Order implements Serializable {
 	}
 
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -88,6 +98,17 @@ public class Order implements Serializable {
 			this.orderStatus = orderStatus.getCod();
 		}
 	}
+	
+	public Set<OrderItem> getItems() {
+		return items;
+	}
+
+
+	public void setItems(Set<OrderItem> items) {
+		this.items = items;
+	}
+
+
 
 
 	@Override
@@ -107,6 +128,7 @@ public class Order implements Serializable {
 		Order other = (Order) obj;
 		return Objects.equals(id, other.id);
 	}
+
 
 
 
