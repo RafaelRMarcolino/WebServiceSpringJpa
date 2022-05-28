@@ -7,6 +7,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -65,6 +67,13 @@ public class OrderItem implements Serializable {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	
+	
+	public double getSubTotal() {
+		return price * quantity;
+	}
+	
+	
 
 	@Override
 	public int hashCode() {
@@ -82,6 +91,7 @@ public class OrderItem implements Serializable {
 		OrderItem other = (OrderItem) obj;
 		return Objects.equals(id, other.id);
 	}
+
 	
 	
 
