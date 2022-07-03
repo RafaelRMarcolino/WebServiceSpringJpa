@@ -1,4 +1,4 @@
-# WebServiceSpringJpa postgre
+# WebServiceSpringJpa postgres
 
 ````
 spring.datasource.url=jdbc:postgresql://localhost:5432/spring-web
